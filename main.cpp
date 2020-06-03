@@ -5,12 +5,18 @@
 #include <vector>
 #include <utility>
 #include <exception>
-std::vector<std::pair<std::string,double>> Choice_1= {{"A",4.0},{"B",3.5},{"B-",3.0},{"C",2.5},{"C-",2.0},{"D",1.5},{"D-",1.0},{"E",0.5},{"F",0}};
-std::vector<std::pair<std::string,double>> Choice_2= {{"A",4.0},{"A-",3.7},{"B+",3.3},{"B",3.0},{"B-",2.7},{"C+",2.3},{"C",2.0},{"C-",1.7},{"D+",1.3},{"D",1.0},{"F",0.0}};
+//Creates grading criteria
+std::vector<std::pair<std::string,double>> Choice_1= {{"A",4.0},{"B",3.5},
+{"B-",3.0},{"C",2.5},{"C-",2.0},{"D",1.5},{"D-",1.0},{"E",0.5},{"F",0}};
+std::vector<std::pair<std::string,double>> Choice_2= {{"A",4.0},{"A-",3.7},{"B+",3.3},
+{"B",3.0},{"B-",2.7},{"C+",2.3},{"C",2.0},{"C-",1.7},{"D+",1.3},{"D",1.0},{"F",0.0}};
 std::vector<std::pair<std::string,double>> Custom;
+//creates variables used to store grade data
 int num_of_classes, custom_class_amount, credits;
 double grade_value, gpa_sum, credits_sum;
 std::string letter_grade, line,choice,answer;
+//Function that continues to take in input (the number of classes taken)
+//until user gives valid input
 int enter_num_of(){
     std::cin>>num_of_classes;
     std::cout<<std::endl;
@@ -22,22 +28,25 @@ int enter_num_of(){
     }
     return num_of_classes;
 }
+//Prints out grade criteria in a formatted fashion
 void print_out(std::vector<std::pair<std::string,double>> choice){
     for(auto [i,j]:choice){
         std::cout<<"           "<<i<<" = "<<j<<std::endl;
     }
 }
+//takes part in printing out the choice of grading criteria the user makes
 void choice_print_out(){
     std::cout<<"    "<<std::string(70,'*')<<std::endl;
     std::cout<<"    You have chosen this GPA criteria:"<<std::string(2,'\n');
     std::cout<<"            CHOICE"<<std::endl<<"           ========"<<std::endl;
-
-
 }
+//Handles invalid input from user and reduces count by one
+//the i is an iterator in a loop.
 void error_output(int &i){
     i-=1;
     std::cout<<"    Error with input, please try again."<<std::endl;
 }
+//Strings used when printing out the criteria choice the user makes
 std::string custom_print=std::string(50, '\n')+R"(
        _____ _    _  _____ _______ ____  __  __
       / ____| |  | |/ ____|__   __/ __ \|  \/  |
@@ -61,6 +70,8 @@ std::string choice_two_print=std::string(50, '\n')+R"(
      | |    |  __  | |  | || || |    |  __|      | |    \ \/  \/ /| |  | |
      | |____| |  | | |__| || || |____| |____     | |     \  /\  / | |__| |
       \_____|_|  |_|\____/_____\_____|______|    |_|      \/  \/   \____/)";
+//Goes through grading criteria, looks if inputted letter is in that grading criteria
+//and returns its grade value (4.0,3.5,3.0,...). returns -1 if letter is not in grade criteria
 double find_grade_value(std::string letter,std::vector<std::pair<std::string,double>> Choice){
     for(auto [i,j]:Choice){
         if(letter==i){
@@ -69,6 +80,7 @@ double find_grade_value(std::string letter,std::vector<std::pair<std::string,dou
     }
     return -1;
 }
+//Function that creates a custom criteria with the users input.
 void build_custom_criteria(){
     Custom.clear();
     std::cout<<"    How many possible letter grades do you want there to be?:";
@@ -96,6 +108,7 @@ void build_custom_criteria(){
     std::cout<<"            CUSTOM"<<std::endl<<"           ========"<<std::endl;
     print_out(Custom);
 }
+//uses a grading criteria and gets users input in order to calculate the users GPA
 void calculate_gpa(std::vector<std::pair<std::string,double>> Choice){
     gpa_sum=0;
     credits_sum=0;
@@ -128,6 +141,7 @@ void calculate_gpa(std::vector<std::pair<std::string,double>> Choice){
         std::cout<<"    Goodbye!";
     }
 }
+//Gets the criteria choice from the user
 void choose_option(){
     std::cin>>choice;
     if(choice=="ONE"){
